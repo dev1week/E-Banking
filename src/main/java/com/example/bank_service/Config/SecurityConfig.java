@@ -1,6 +1,9 @@
 package com.example.bank_service.Config;
 
 import com.example.bank_service.Domain.User.UserEnum;
+import com.example.bank_service.Dto.ResponseDto;
+import com.example.bank_service.Util.CustomResponseUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -50,6 +53,13 @@ public class SecurityConfig {
                 .antMatchers("/api/s/**").authenticated()
                 .antMatchers("/api/admin/**").hasRole("" + UserEnum.ADMIN)
                 .anyRequest().permitAll();
+
+        //예외 가로채서 공통 응답 dto 만들기
+        //#7 -1 상태에서는 응답 양식이 자기 멋대로 내려감 통일성이 없기 때문에 통일성을 만들어준다.
+            //403이 아닌 401을 반환해야한다.
+        http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
+            CustomResponseUtil.Unauthentication(response, "로그인을 진행해주세요");
+        });
 
         return http.build();
     }
