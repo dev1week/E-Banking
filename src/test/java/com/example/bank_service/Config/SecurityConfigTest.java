@@ -32,6 +32,15 @@ public class SecurityConfigTest {
 
     @Test
     public void 권한테스트() throws Exception{
+        // when
+        ResultActions resultActions = mvc.perform(get("/api/admin/hello"));
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        int httpStatusCode = resultActions.andReturn().getResponse().getStatus();
+        System.out.println("테스트 : " + responseBody);
+        System.out.println("테스트 : " + httpStatusCode);
+
+        // then
+        assertThat(httpStatusCode).isEqualTo(401);
 
     }
 
