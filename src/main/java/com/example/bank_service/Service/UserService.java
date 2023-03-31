@@ -1,10 +1,11 @@
 package com.example.bank_service.Service;
 
 import com.example.bank_service.Domain.User.User;
-import com.example.bank_service.Domain.User.UserEnum;
 import com.example.bank_service.Domain.User.UserRepository;
+import com.example.bank_service.Dto.User.UserReqDto.JoinReqDto;
+import com.example.bank_service.Dto.User.UserRespDto;
+import com.example.bank_service.Dto.User.UserRespDto.JoinResDto;
 import com.example.bank_service.Exception.CustomApiException;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,37 +35,9 @@ public class UserService {
         //2 패스워드 인코딩
         User userPs = userRepository.save(joinReqDto.toEntity(passwordEncoder));
         //3.  dto 응답
-        return new JoinResDto(userPs);
+        return new UserRespDto.JoinResDto(userPs);
     }
 
-    @Data
-    public static class JoinReqDto{
-        //to-do 유효성 검사해야함
-        private String username;
-        private String password;
-        private String email;
-        private String fullname;
 
-        public User toEntity(BCryptPasswordEncoder passwordEncoder){
-            return User.builder()
-                    .username(username)
-                    .password(passwordEncoder.encode(password))
-                    .email(email)
-                    .fullname(fullname)
-                    .role(UserEnum.CUSTOMER)
-                    .build();
-        }
-    }
-    @Data
-    public static class JoinResDto{
-        private Long id;
-        private String username;
-        private String fullname;
 
-        public JoinResDto(User user) {
-            this.id = user.getId();
-            this.username = user.getUsername();
-            this.fullname = user.getFullname();
-        }
-    }
 }
