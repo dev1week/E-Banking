@@ -1,10 +1,10 @@
 package com.example.bank_service.Service;
 
+import com.example.bank_service.Config.dummy.DummyObject;
 import com.example.bank_service.Domain.User.User;
-import com.example.bank_service.Domain.User.UserEnum;
 import com.example.bank_service.Domain.User.UserRepository;
-import com.example.bank_service.Service.UserService.JoinReqDto;
-import com.example.bank_service.Service.UserService.JoinResDto;
+import com.example.bank_service.Dto.User.UserReqDto.JoinReqDto;
+import com.example.bank_service.Dto.User.UserRespDto.JoinResDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +14,6 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -23,7 +22,7 @@ import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+public class UserServiceTest extends DummyObject {
     //1.모키토를 사용하기 때문에 스프링 관련 빈들이 존재하지 않는다.
     @InjectMocks
     private UserService userService;
@@ -37,7 +36,7 @@ public class UserServiceTest {
 
     @Test
     public void 중복검사를통과한회원가입() throws Exception{
-        //given 
+        //given
         JoinReqDto joinReqDto = new JoinReqDto();
         joinReqDto.setUsername("test");
         joinReqDto.setPassword("1234");
@@ -52,17 +51,8 @@ public class UserServiceTest {
 
 
         //stub2.
-            //중복검사를 통과했기 때문에 repository에 저장 로직을 상정하여 객체를 생성함
-        User test = User.builder()
-                        .id(1L)
-                        .username("test")
-                        .password("1234")
-                        .email("test@naver.com")
-                        .fullname("test")
-                        .role(UserEnum.CUSTOMER)
-                        .createdAt(LocalDateTime.now())
-                        .updatedAt(LocalDateTime.now())
-                        .build();
+            //중복검사를 통과했기 때문에 repository에 저장되었다는 것 상정하여 저장된 객체를 생성함
+        User test = newMockUser(1L, "test", "test");
 
         when(userRepository.save(any())).thenReturn(test);
 
@@ -73,8 +63,6 @@ public class UserServiceTest {
         assertThat(joinResDto.getId()).isEqualTo(1L);
         assertThat(joinResDto.getUsername()).isEqualTo("test");
         System.out.println(joinResDto.toString());
-
-
     }
     @Test
     public void 중복검사를통과하지못한회원가입() throws Exception{
