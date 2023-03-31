@@ -3,8 +3,8 @@ package com.example.bank_service.Service;
 import com.example.bank_service.Domain.User.User;
 import com.example.bank_service.Domain.User.UserRepository;
 import com.example.bank_service.Dto.User.UserReqDto.JoinReqDto;
-import com.example.bank_service.Dto.User.UserRespDto;
-import com.example.bank_service.Dto.User.UserRespDto.JoinResDto;
+import com.example.bank_service.Dto.User.UserResDto;
+import com.example.bank_service.Dto.User.UserResDto.JoinResDto;
 import com.example.bank_service.Exception.CustomApiException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public class UserService {
         //2 패스워드 인코딩
         User userPs = userRepository.save(joinReqDto.toEntity(passwordEncoder));
         //3.  dto 응답
-        return new UserRespDto.JoinResDto(userPs);
+        return new UserResDto.JoinResDto(userPs);
     }
 
 

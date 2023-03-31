@@ -3,7 +3,7 @@ package com.example.bank_service.Dto.User;
 import com.example.bank_service.Domain.User.User;
 import lombok.Data;
 
-public class UserRespDto {
+public class UserResDto {
     @Data
     public static class JoinResDto{
         private Long id;
