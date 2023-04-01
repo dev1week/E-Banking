@@ -4,7 +4,7 @@ import com.example.bank_service.Config.dummy.DummyObject;
 import com.example.bank_service.Domain.User.User;
 import com.example.bank_service.Domain.User.UserRepository;
 import com.example.bank_service.Dto.User.UserReqDto.JoinReqDto;
-import com.example.bank_service.Dto.User.UserRespDto.JoinResDto;
+import com.example.bank_service.Dto.User.UserResDto.JoinResDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
