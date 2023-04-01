@@ -29,14 +29,7 @@ public class UserController {
 
 
         //유효성 검사 실패시 에러 dto 반환 로직
-        if(bindingResult.hasErrors()){
-            Map<String, String> errorMap = new HashMap<>();
 
-            for(FieldError error : bindingResult.getFieldErrors()){
-                errorMap.put(error.getField(), error.getDefaultMessage());
-            }
-            return new ResponseEntity<>(new ResponseDto<>(-1,"유효성 검사 실패",errorMap),HttpStatus.BAD_REQUEST);
-        }
 
         JoinResDto joinResDto = userService.join(joinReqDto);
         return new ResponseEntity<>(new ResponseDto<>(1,"회원가입 성공",joinResDto), HttpStatus.CREATED);
